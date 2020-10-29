@@ -3,6 +3,7 @@ package com.cg.employeejdbc.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.cg.employeejdbc.model.EmployeePayrollData;
@@ -86,10 +87,17 @@ public class EmployeePayrollService {
 		return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
 	}
 
-	public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService dbIo, LocalDate startDate,
+	public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService ioService, LocalDate startDate,
 			LocalDate endDate) {
-		if (dbIo.equals(IOService.DB_IO)) {
+		if (ioService.equals(IOService.DB_IO)) {
 			return employeePayrollDBService.getEmployeeForGivenDateRange(startDate, endDate);
+		}
+		return null;
+	}
+
+	public Map<String, Double> readAverageSalaryByGender(IOService ioService) {
+		if (ioService.equals(IOService.DB_IO)) {
+			return employeePayrollDBService.getAverageSalaryByGender();
 		}
 		return null;
 	}
