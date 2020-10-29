@@ -1,5 +1,6 @@
 package com.cg.employeejdbc.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -83,6 +84,14 @@ public class EmployeePayrollService {
 	public boolean checkEmployeePayrollInSyncWithDB(String name) {
 		List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.getEmployeePayrollData(name);
 		return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
+	}
+
+	public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService dbIo, LocalDate startDate,
+			LocalDate endDate) {
+		if (dbIo.equals(IOService.DB_IO)) {
+			return employeePayrollDBService.getEmployeeForGivenDateRange(startDate, endDate);
+		}
+		return null;
 	}
 
 }
