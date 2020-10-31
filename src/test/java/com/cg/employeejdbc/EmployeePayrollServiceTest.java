@@ -33,7 +33,7 @@ public class EmployeePayrollServiceTest {
 	public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
-		assertEquals(5, employeePayrollData.size());
+		assertEquals(6, employeePayrollData.size());
 	}
 
 	@Test
@@ -62,7 +62,7 @@ public class EmployeePayrollServiceTest {
 		LocalDate endDate = LocalDate.now();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService
 				.readEmployeePayrollForDateRange(IOService.DB_IO, startDate, endDate);
-		assertEquals(5, employeePayrollData.size());
+		assertEquals(6, employeePayrollData.size());
 	}
 
 	@Test
@@ -72,5 +72,15 @@ public class EmployeePayrollServiceTest {
 		Map<String, Double> averageSalaryByGender = employeePayrollService.readAverageSalaryByGender(IOService.DB_IO);
 		assertTrue(averageSalaryByGender.get("M").equals(2250000.00)
 				&& averageSalaryByGender.get("F").equals(2666666.6666666665));
+	}
+	
+	@Test
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
+		EmployeePayrollService service = new EmployeePayrollService();
+		service.readEmployeePayrollData(IOService.DB_IO);
+		service.addEmployeeToPayroll("Henry", 2250000.00, LocalDate.now(), "M");
+		boolean result = service.checkEmployeePayrollInSyncWithDB("Henry");
+		assertTrue(result);
+		
 	}
 }

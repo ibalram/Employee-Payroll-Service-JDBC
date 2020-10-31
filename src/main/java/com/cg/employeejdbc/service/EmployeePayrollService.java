@@ -82,6 +82,11 @@ public class EmployeePayrollService {
 		return this.employeePayrollList.stream().filter(data -> data.name.equals(name)).findFirst().orElse(null);
 	}
 
+	public void addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender) {
+		employeePayrollList.add(employeePayrollDBService.addEmployeeToPayroll(name, salary, startDate, gender));
+
+	}
+
 	public boolean checkEmployeePayrollInSyncWithDB(String name) {
 		List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.getEmployeePayrollData(name);
 		return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
